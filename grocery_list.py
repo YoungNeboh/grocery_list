@@ -15,39 +15,52 @@ def round_up(listed):
     exit()
 
 
+def remove_item(listed):
+    if listed:
+        to_remove = input("What item would you like to remove? --> ").title()
+        if to_remove in listed:
+            listed.remove(to_remove)
+            print(f"'{to_remove}' has been removed from the list")
+        else:
+            print(f"'{to_remove}' isn't in the grocery list")
+    else:
+        print("The list is currently empty")
+    return ''
+
+
 groceries = []
-print("Hello! Create your groceryList here!")
+print("Hello! Create your grocery list here!")
 while True:
     item = input("What would you like to add to your list?(Type 'r' to remove an item) --> ").title()
-    if item != "R":
-        # check if item is already in the list
-        if item not in groceries:
-            groceries.append(item)
-            print(f"'{item}' added to your list!")
-        else:
-            print(f"'{item}' is already in the list")
-            reattempt = input("Do you have anything else you'd like to add? yes(y) / no(n)")
-            if reattempt.lower() in ("yes", "y"):
-                continue
-            elif reattempt.lower() in ("no", "n"):
-                round_up(groceries)
 
-        # accept other items for the list
-        while True:
-            next_item = input("\n Would you like to add anything else to your list? yes(y) / no(n) ")
-            if next_item.lower() in ("yes", "y"):
-                break   # go back to top-level loop
-            elif next_item.lower() in ("no", "n"):
-                round_up(groceries)
-            else:
-                print("Please type in 'yes' or 'no'")
+    # check if 'r' was typed
+    if item == "R":
+        item = remove_item(groceries)
+
+    # check if item is already in the list
+    if item not in groceries:
+        groceries.append(item)
+        print(f"'{item}' added to your list!")
     else:
-        if groceries:
-            to_remove = input("What item would you like to remove? --> ").title()
-            if to_remove in groceries:
-                groceries.remove(to_remove)
-                print(f"'{to_remove}' has been removed from the list")
-            else:
-                print(f"'{to_remove}' isn't in the groceryList")
+        print(f"'{item}' is already in the list")
+        reattempt = input("Do you have anything else you'd like to add? yes(y) / no(n)"
+                          "(Type 'r' to remove an item) --> ").lower()
+        if reattempt == "R":
+            item = remove_item(groceries)
+        elif reattempt in ("yes", "y"):
+            continue
+        elif reattempt in ("no", "n"):
+            round_up(groceries)
         else:
-            print("The groceryList is currently empty")
+            print("Please type 'yes' or 'no'")
+
+
+    # accept other items for the list
+    while True:
+        next_item = input("\n Would you like to add anything else to your list? yes(y) / no(n) ").lower()
+        if next_item in ("yes", "y"):
+            break   # go back to top-level loop
+        elif next_item in ("no", "n"):
+            round_up(groceries)
+        else:
+            print("Please type in 'yes' or 'no'")
