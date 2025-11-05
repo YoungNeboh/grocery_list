@@ -5,7 +5,7 @@
 
 def round_up(listed):
     # announce end of item taking, and print out the groceryList
-    print("\n Alright that will be all then!")
+    print("\nAlright, that will be all then!")
     print(f"Your finished list is:")
     for i, g in enumerate(listed, start=1):
         print(f"{i}. {g}")
@@ -31,11 +31,18 @@ def remove_item(listed):
 groceries = []
 print("Hello! Create your grocery list here!")
 while True:
-    item = input("What would you like to add to your list?(Type 'r' to remove an item) --> ").title()
+    item = input("What would you like to add to your list?(Type 'r' to remove an item, or 'x' to cancel) --> ").title()
 
-    # check if 'r' was typed
-    if item == "R":
-        item = remove_item(groceries)
+
+    if item == "R":     # if user wants to remove item
+        remove_item(groceries)
+        continue
+    elif item == "X":   # if user wants to cancel
+        if groceries:
+            round_up(groceries)
+        else:
+            print("Your list is currently empty. See you next time!")
+            exit()
 
     # check if item is already in the list
     if item not in groceries:
@@ -43,13 +50,21 @@ while True:
         print(f"'{item}' added to your list!")
     else:
         print(f"'{item}' is already in the list")
-        reattempt = input("Do you have anything else you'd like to add? yes(y) / no(n)"
-                          "(Type 'r' to remove an item) --> ").lower()
-        if reattempt == "R":
-            item = remove_item(groceries)
-        elif reattempt in ("yes", "y"):
+        reattempt = input("\nDo you have anything else you'd like to add? yes(y) / no(n)"
+                          "(Type 'r' to remove an item, or 'x' to cancel) --> ").title()
+
+        if reattempt == "R":  # if user wants to remove item
+            remove_item(groceries)
             continue
-        elif reattempt in ("no", "n"):
+        elif reattempt == "X":  # if user wants to cancel
+            if groceries:
+                round_up(groceries)
+            else:
+                print("Your list is currently empty. See you next time!")
+                exit()
+        elif reattempt in ("YES", "Y"):     # if user wants to add something to list
+            continue
+        elif reattempt in ("NO", "N"):      # if user doesn't want to add anything else
             round_up(groceries)
         else:
             print("Please type 'yes' or 'no'")
@@ -57,10 +72,21 @@ while True:
 
     # accept other items for the list
     while True:
-        next_item = input("\n Would you like to add anything else to your list? yes(y) / no(n) ").lower()
-        if next_item in ("yes", "y"):
+        next_item = input("\nWould you like to add anything else to your list? yes(y) / no(n)"
+                          "(Type 'r' to remove an item, or 'x' to cancel) --> ").title()
+
+        if next_item == "R":  # if user wants to remove item
+            remove_item(groceries)
+            continue
+        elif next_item == "X":  # if user wants to cancel
+            if groceries:
+                round_up(groceries)
+            else:
+                print("Your list is currently empty. See you next time!")
+                exit()
+        elif next_item in ("YES", "Y"):
             break   # go back to top-level loop
-        elif next_item in ("no", "n"):
+        elif next_item in ("NO", "N"):
             round_up(groceries)
         else:
             print("Please type in 'yes' or 'no'")
