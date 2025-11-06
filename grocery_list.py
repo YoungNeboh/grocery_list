@@ -7,8 +7,8 @@ def round_up(listed):
     # announce end of item taking, and print out the groceryList
     print("\nAlright, that will be all then!")
     print(f"Your finished list is:")
-    for i, g in enumerate(listed, start=1):
-        print(f"{i}. {g}")
+    for index, grocery_item in enumerate(listed, start=1):
+        print(f"{index}. {grocery_item}")
     with open("/Users/macbook/PycharmProjects/personalWork/projects/groceryList/groceries.txt", "w") as file:
         for each in listed:
             file.write(each + "\n")
